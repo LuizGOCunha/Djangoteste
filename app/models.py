@@ -9,3 +9,6 @@ class Cliente(models.Model):
     pontuation = models.IntegerField(blank=True,null=True)
     habilitado = models.BooleanField(blank=True,null=True)
     obs = models.TextField(blank=True,null=True)
+
+    def __str__(self):
+        return self.nome
