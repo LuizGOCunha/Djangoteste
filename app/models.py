@@ -15,6 +15,7 @@ class Cliente(models.Model):
         # cho_tuple = (('P', 'Pequeno'), ('M', 'Médio'), ('G', 'Grande')); models.Charfield(choices=cho_tuple)
     # default = Valor padrão para esta caixa. Pode ser um valor ou um objeto a ser chamado (o que isso significa?)
     # verbose_name = Dita como o nome da coluna de informação deve surgir na interface. (primeiro argumento)
+    # on_delete = ação a ser feita quando o model for deletado
     # primary_key = Boolean, se verdadeiro será a PK deste modelo (irá identificá-lo. Obrigatório e único!)
     # unique = Boolean, se verdadeiro diz que os valores nessa caixa não devem se repetir entre os objetos.
     # Você pode adicionar uma primary key assim, mas saiba que o Django já faz isso automaticamente:
@@ -22,7 +23,8 @@ class Cliente(models.Model):
     nome = models.CharField('nome completo',max_length = 100) # Caixa de string pequena
     data = models.DateField(blank=True,null=True) # Caixa de data
     pontuation = models.IntegerField('pontuação',blank=True,null=True) # Caixa numérica
-    habilitado = models.BooleanField('habitação',blank=True,null=True, choices=( ('s', 'sim'), ('n', 'não') )) # Caixa de valor binário (verdadeiro ou falso)
+    # Caixa de valor binário (verdadeiro ou falso)
+    habilitado = models.BooleanField('habitação',blank=True,null=True, choices=( (True, 'sim'), (False, 'não') ))
     obs = models.TextField('observação',blank=True,null=True) # Caixa de texto grande (parágrafo)
 
     # Esse método tem como objetivo mudar a apresentação de cada objeto deste modelo.
@@ -31,8 +33,30 @@ class Cliente(models.Model):
         return self.nome
 
 
+class Author(Cliente):
+    pseudonimo = models.CharField(max_length=100, blank=True, null=True)
+    premiado = models.BooleanField(blank=False, choices=((True, 'sim'), (False, 'não')))
+    parceiro = models.BooleanField(blank=False, choices=((True, 'sim'), (False, 'não')))
+
+    class Meta:
+        verbose_name_plural = "Autores"
+
+    def __str__(self):
+        return self.pseudonimo
+
+
 class Books(models.Model):
     titulo = models.CharField('título',max_length=200)
+    # Aqui ligamos o modelo books ao modelo autor através de uma ForeignKey.
+    # Isto é, ligamos um livro ao seu autor
+    # PROTECT: Não deleta o modelo até que todos os objetos dependentes sejam deletados.
+    # CASCADE: Ao deletar o objeto, todos os seus dependentes também são deletados
+    # RESTRICT: Similar ao PROTECT, mas se aproximando à ação de mesmo nome em SQL
+    # SET_NULL: Ao deletar o objeto, mantém o espaço e todos os objetos dependentes, mas reduz o valor a nulo.
+    # SET_DEFAULT: Seta um valor padrão.
+    # SET (...): Estabelecer um valor a ser adotado ao deletar o objeto.
+    # DO_NOTHING: Autoexplicativo, e também uma péssima ideia em geral.
+    autor = models.ForeignKey(Author,on_delete=models.CASCADE,blank=True,null=True)
     publicacao = models.DateField('publicação',blank=False) # O valor padrão de blank já é True, mas reforcei aqui.
     edicao = models.CharField('edição', max_length=50)
     paginas = models.IntegerField('quantidade de páginas',blank=False)
@@ -48,26 +72,13 @@ class Books(models.Model):
 
 class Albums(models.Model):
     titulo = models.CharField('título',max_length=100)
+    autor = models.ForeignKey(Author,on_delete=models.CASCADE,blank=True,null=True)
     publicacao = models.DateField('publicação',blank=False)
     duracao = models.IntegerField('duração')
 
-
-class Author(Cliente):
-    # Aqui ligamos o modelo author a um modelo books através de uma ForeignKey.
-    # Isto é, ligamos um autor ao livro de sua autoria
-    books = models.ForeignKey(Books, on_delete=models.CASCADE) # on_delete: ação a ser feita quando o model for deletado
-    albums = models.ForeignKey(Albums, on_delete=models.CASCADE)
-    # PROTECT: Não deleta o modelo até que todos os objetos dependentes sejam deletados.
-    # CASCADE: Ao deletar o objeto, todos os seus dependentes também são deletados
-    # RESTRICT: Similar ao PROTECT, mas se aproximando à ação de mesmo nome em SQL
-    # SET_NULL: Ao deletar o objeto, mantém o espaço e todos os objetos dependentes, mas reduz o valor a nulo.
-    # SET_DEFAULT: Seta um valor padrão.
-    # SET (...): Estabelecer um valor a ser adotado ao deletar o objeto.
-    # DO_NOTHING: Autoexplicativo, e também uma péssima ideia em geral.
-    pseudonimo = models.CharField(max_length=100, blank=True, null=True)
-    premiado = models.BooleanField(blank=False,choices=( ('s', 'sim'), ('n', 'não') ))
-    parceiro = models.BooleanField(blank=False, choices=( ('s', 'sim'), ('n', 'não') ))
-
     class Meta:
-        verbose_name_plural = "Autores"
+        verbose_name_plural = "Albums"
+
+    def __str__(self):
+        return self.titulo
 
