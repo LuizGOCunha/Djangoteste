@@ -82,3 +82,34 @@ class Albums(models.Model):
     def __str__(self):
         return self.titulo
 
+
+# Aqui eu já posso logar na interface localhost/admin e adicionar objetos por lá.
+# Mas existem outras maneiras de fazer isso.
+# Python console: Vá até o terminal e digite:
+# $ python3 manage.py shell
+# Em seguida importe a biblioteca 'os':
+# >>> import os
+# Então define a variavel de ambiente no seu settings (?)
+# >>> os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_model.settings')
+# Então importe o django
+# >>> import django
+# Então configura o django com os settings especificados
+# >>> django.setup()
+# Agora, é preciso importar o model oque você quer utilizar
+# >>> from app.models import Cliente
+# A partir daí tem duas maneiras de se criar um objeto e salvá-lo na database:
+# instanciando e salvando:
+# >>> joao = Cliente(nome = 'João', data ='1999-09-09',pontuation= 89,habilitado= True, obs='observado')
+# >>> joao.save()
+# Ou podemos fazer tudo em uma só linha:
+# pedro = Cliente.objects.create('Pedro', '18/04/85', 14, False, 'observei')
+
+# É possível fazer uma função de Query ao misturar funcionalidades Django com uma simples Lambda function:
+# >>> listar = lambda x: Cliente.objects.filter(id=x)
+# >>> listar(1)
+# Retorna: <QuerySet [<Cliente: Luiz>]>
+# ou
+# >>> clientegrep = lambda model,string: model.objects.filter(nome__contains=string)
+# >>> clientegrep(Cliente, "ui")
+# Retorna: <QuerySet [<Cliente: Luiz>, <Cliente: Luiz Gustavo Oliveira da Cunha>]>
+# Assim podemos buscar objetos através da command line, sem precisar rodar o servidor nem acessar diretamente o db

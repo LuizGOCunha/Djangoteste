@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# Aqui é onde você deve listar seus aplicativos para que eles possam ser reconhecidos pelo django.
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,6 +75,7 @@ WSGI_APPLICATION = 'Djangoteste.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# Aqui é onde você pode modificar o pathing da sua database. Vamos ver como fazer isso depois.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
