@@ -29,7 +29,7 @@ class Cliente(models.Model):
     # Essa é uma dificuldade que eu passei muito tempo tendo, como fazer um relacionamento de amizade entre usuarios?
     # Claramente se trata de um relacionamento many to many, mas eu não sabia como se referencia a si mesmo em Django
     # E aqui está resolvido, se usa self, assim como em python, mas se coloca em string.
-    amigos = models.ManyToManyField("self",blank=True,null=True)
+    amigos = models.ManyToManyField("self",blank=True)
 
     # Esse método tem como objetivo mudar a apresentação de cada objeto deste modelo.
     # Aqui, escolhemos representá-lo pelo atributo 'nome'
