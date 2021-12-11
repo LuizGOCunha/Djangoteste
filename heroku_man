@@ -1,0 +1,7 @@
+1: instalar heroku no venv
+2: logar pela command line
+3: instalar o gunicorn (server gateway interface)
+4: mandar o output de "$ pip freeze" para arquivo requirements.txt
+5: configura arquivo procfile (web: gunicorn Djangoteste.wsgi --log-file -)
+6: agora é necessário dar um push no repositório remoto do heroku, para dar deploy no nosso projeto
+7:

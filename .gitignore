@@ -1,1 +1,3 @@
+.gitignore
 gitkey
+db.sqlite3
