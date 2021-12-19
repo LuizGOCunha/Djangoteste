@@ -13,5 +13,6 @@ from . import views
 # Se o nome da url for uma string vazia, então será levado em consideração o url base do aplicativo
 # Sempre bom nomear seus paths com a variavel 'name', para fins de referencia
 urlpatterns = [
-    path('', views.index, name='index')
+    path('', views.index, name='index'),
+    path('busca/', views.busca, name = 'busca'),
 ]

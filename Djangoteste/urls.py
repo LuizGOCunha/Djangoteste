@@ -20,8 +20,11 @@ from django.urls import path, include
 # No caso o que será feito é levar em consideração todos os outros paths que estão especificados neste módulo
 # Poderíamos referenciar cada path em app.urls aqui mesmo, mas isso tornaria edição dos aplicativos mais dificil, e o
 # layout do código mais confuso. Por isso é melhor dar um módulo urls para cada aplicativo e usar include.
+import app.views
+
 urlpatterns = [
     path('app/', include('app.urls')),
     path('admin/', admin.site.urls),
+    path('', app.views.index2, name = 'index2'),
 
 ]

@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'Djangoteste.wsgi.application'
 # Aqui é onde você pode modificar o pathing da sua database. Vamos ver como fazer isso depois.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'djangotest',
+        'USER': 'postgres',
+        'PASSWORD': '997488lgc',
+        'HOST': 'localhost',
+
     }
 }
 
